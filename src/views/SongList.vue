@@ -188,7 +188,6 @@ interface SongData {
 
 interface CombinedData {
   songs: SongData[];
-  artists: string[];
   stepMakers: string[];
 }
 
