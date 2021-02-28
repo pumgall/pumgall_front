@@ -175,6 +175,13 @@
         </td>
       </template>
     </v-data-table>
+    <p class="justify-center text-center"
+      ><a
+        href="https://gist.github.com/SerenityS/80e1c69f76961950c21fad949bed454b"
+        target="_blank"
+        >Data Source</a
+      ></p
+    >
     <!-- </v-row> -->
     <!-- </v-flex>
     </v-layout> -->
