@@ -21,6 +21,23 @@
       </v-autocomplete>
 
       <v-autocomplete
+        v-model="filterData.channel"
+        :items="filterList.channel"
+        label="Channel"
+        multiple
+        clearable
+      >
+        <template v-slot:selection="{ item, index }">
+          <v-chip v-if="index === 0" small>
+            <span>{{ item }}</span>
+          </v-chip>
+          <span v-if="index === 1" class="grey--text caption">
+            (+{{ filterData.channel.length - 1 }} others)
+          </span>
+        </template>
+      </v-autocomplete>
+
+      <v-autocomplete
         v-model="filterData.bpm"
         :items="filterList.bpm"
         label="BPM"
@@ -181,6 +198,7 @@ interface SongData {
   title: string;
   artist: string;
   series: string;
+  channel: string;
   bpm_min: number;
   bpm_max: number;
   steps: StepInfo[];
@@ -198,6 +216,7 @@ export default Vue.extend({
       { text: "Title", value: "title" },
       { text: "Artist", value: "artist" },
       { text: "Series", value: "series", filterable: false },
+      { text: "Channel", value: "channel", filterable: false },
       { text: "BPM", value: "bpm_min", filterable: false },
     ];
 
@@ -223,6 +242,8 @@ export default Vue.extend({
       { text: "Over 220", value: { min: 220, max: 9999 } },
     ];
 
+    const channel = ["K-POP", "ORIGINAL", "WORLD MUSIC", "J-MUSIC", "XROSS"];
+
     const mode = ["single", "double", "sinper", "douper", "coop"];
 
     const level = Array.from(Array(30), (_, i) => i + 1);
@@ -230,6 +251,7 @@ export default Vue.extend({
     const filterData: { [k: string]: string[] } = {
       series: [],
       bpm: [],
+      channel: [],
       stepMakers: [],
       mode: [],
       level: [],
@@ -238,6 +260,7 @@ export default Vue.extend({
     const filterList = {
       series,
       bpm,
+      channel,
       stepMakers: [] as string[],
       mode,
       level,
@@ -305,10 +328,7 @@ export default Vue.extend({
 
               for (const song of list) {
                 const filteredSteps = song.steps.filter(
-                  (v) =>
-                    -1 < ll.indexOf(v.level) ||
-                    ("coop" === v.mode &&
-                      -1 < this.filterData.mode.indexOf("coop"))
+                  (v) => -1 < ll.indexOf(v.level)
                 );
                 if (!filteredSteps.length) continue;
 
@@ -357,7 +377,7 @@ export default Vue.extend({
     },
     getLevelIcon(step: StepInfo) {
       const path = "/assets/level_icons/";
-      if ("coop" == step.mode) return `${path}coop9.png`;
+      if ("coop" == step.mode) return `${path}coop${step.level}.png`;
 
       return `${path}${step.mode}_${step.level}.png`;
     },
