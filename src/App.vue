@@ -11,6 +11,7 @@
         <v-tabs>
           <v-tab to="/">Main</v-tab>
           <v-tab to="/songlist">Song List</v-tab>
+          <v-tab to="/ucslist">UCS List</v-tab>
         </v-tabs>
       </template>
     </v-app-bar>

@@ -1,4 +1,4 @@
 node_modules
 dist
 public/assets
-src/assets/combinedData.json
+src/assets/*.json
